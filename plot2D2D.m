@@ -23,10 +23,10 @@ function [f] = plot2D2D(X,Y,U,V,varargin)
 %     -- Custom map --
 %       'custom'          requires own map 'custom.png'
 %
-%   'ulim' (overwritten for circular colormaps)
-%       [min u, max u]
-%   'vlim'
-%       [min v, max v]
+%   'umin' (overwritten for circular colormaps)
+%   'umax' (overwritten for circular colormaps)
+%   'vmin'
+%   'vmax'
 %
 %   'ulabel'
 %       string
@@ -58,7 +58,8 @@ function [f] = plot2D2D(X,Y,U,V,varargin)
 %   The colormaps chroma_const and chroma_max are based on the work
 %   presented in this github:
 %       https://github.com/endolith/complex_colormap
-% Author: Marcus Becker
+% Author: Marcus Becker, Date: 2021 - 11 - 23
+%
 % ====== Examples ========================
 % E1 - random data:
 %   plot2D2D(rand(10),rand(10),rand(10),rand(10))
@@ -77,10 +78,17 @@ function [f] = plot2D2D(X,Y,U,V,varargin)
 %   plot2D2D(X1,X2,phi,mag,'Colormap','ChromaConst','ulabel','Direction','vlabel','Magnitude')
 %   plot2D2D(X1,X2,phi,mag,'Colormap','ChromaMax','ulabel','Direction','vlabel','Magnitude')
 %   plot2D2D(X1,X2,phi,mag,'Colormap','ChromaConst','ulabel','Direction','vlabel','Magnitude','ColormapLocation','East')
+%
+% E4 - dynamic system - saddle point
+% [X1,X2] = meshgrid(linspace(-9,9),linspace(-4,4));
+% X1_d = X2; X2_d = -sin(X1) -0.3*X2;
+% plot2D2D(X1,X2,X1_d,X2_d,'Colormap','schumann','ulabel','x1 d/dt','vlabel','x2 d/dt')
 %% Default parameters
 colormap        = 'teuling';
-ulim            = [min(U),max(U)];
-vlim            = [min(V),max(V)];
+umin            = min(U(:));
+umax            = max(U(:));
+vmin            = min(V(:));
+vmax            = max(V(:));
 ulabel          = '';
 vlabel          = '';
 angleunit       = 'rad';
@@ -100,17 +108,17 @@ if nargin>3
             eval([lower(varargin{i}) '=' num2str(varargin{i+1}) ';']);
         else
             %Value is a string, can be used as expected
-            stringVar = lower(varargin{i+1});
-            stringVar = replace(stringVar,' ','');
+            stringVar = varargin{i+1};
             eval([lower(varargin{i}) '= stringVar;']);
             clear stringVar
         end
     end
 end
-
-
+%% Set limits
+ulim = [umin,umax];
+vlim = [vmin,vmax];
 %% Load a colormap and store in a matrix of RGB values
-switch colormap
+switch replace(lower(colormap),' ','')
     case 'teuling'
         try
             im = imread('teuling.png');
