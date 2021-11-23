@@ -174,7 +174,7 @@ switch replace(lower(colormap),' ','')
         ulim = [0,360];
     case 'custom'
         try
-            im = imread('ChromaMax.jpg');
+            im = imread('custom.png');
         catch
             error('The map custom.png is unavailable.')
         end
