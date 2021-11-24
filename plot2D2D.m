@@ -19,6 +19,7 @@ function [f] = plot2D2D(X,Y,U,V,varargin)
 %       'ChromaConst'     circular 2D map (u = angle) (recommended)
 %       'chromaMax'       circular 2D map (u = angle) (can cause misleading
 %                           edges, but is more vivid)
+%       'complex'         circular 2D map
 %
 %     -- Custom map --
 %       'custom'          requires own map 'custom.png'
