@@ -77,7 +77,7 @@ function [f] = plot2D2D(X,Y,U,V,varargin)
 %   mag = sqrt(X1_d(:).^2 + X2_d(:).^2);
 %   plot2D2D(X1,X2,phi,mag,'Colormap','ChromaConst','ulabel','Direction','vlabel','Magnitude')
 %   plot2D2D(X1,X2,phi,mag,'Colormap','ChromaMax','ulabel','Direction','vlabel','Magnitude')
-%   plot2D2D(X1,X2,phi,mag,'Colormap','ChromaConst','ulabel','Direction','vlabel','Magnitude','ColormapLocation','East')
+%   plot2D2D(X1,X2,phi,mag,'Colormap','Complex','ulabel','Direction','vlabel','Magnitude','ColormapLocation','East')
 %
 % E4 - dynamic system - saddle point
 % [X1,X2] = meshgrid(linspace(-9,9),linspace(-4,4));
@@ -118,6 +118,14 @@ end
 ulim = [umin,umax];
 vlim = [vmin,vmax];
 %% Load a colormap and store in a matrix of RGB values
+% Note:
+%   Longterm it would be favourable to switch to a mathematical description
+%   of the colormaps. Many 2D maps are presented in
+%       https://github.com/igd-iva/colormap-explorer/tree/master/colormaps/src/main/java/de/fhg/igd/iva/colormaps/impl
+%   And would need translation from Java to Matlab.
+%   They are all published under the apache license 2.0:
+%       http://www.apache.org/licenses/LICENSE-2.0
+
 switch replace(lower(colormap),' ','')
     case 'teuling'
         try
@@ -154,7 +162,7 @@ switch replace(lower(colormap),' ','')
             error(['The map bremm.png is unavailable. See comments for '...
                 'map source to download again and replace file.'])
         end
-    case 'chromaconst'
+    case 'chromaconst' % ========== Circular color map
         try
             im = imread('ChromaConst.jpg');
         catch
@@ -163,9 +171,18 @@ switch replace(lower(colormap),' ','')
         end
         angledata = true;
         ulim = [0,360];
-    case 'chromamax'
+    case 'chromamax' % ============ Circular color map
         try
             im = imread('ChromaMax.jpg');
+        catch
+            error(['The map ChromaMax.jpg is unavailable. See comments for '...
+                'map source to download again and replace file.'])
+        end
+        angledata = true;
+        ulim = [0,360];
+    case 'complex' % ============== Circular color map
+        try
+            im = imread('Complex.png');
         catch
             error(['The map ChromaMax.jpg is unavailable. See comments for '...
                 'map source to download again and replace file.'])
