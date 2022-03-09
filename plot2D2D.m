@@ -9,9 +9,9 @@ function [f] = plot2D2D(X,Y,U,V,varargin)
 % ====== Optional inputs =================
 %   'Colormap'
 %     -- Normal maps --
-%       'bramm'           regular 2D map 
-%       'schumann'        regular 2D map 
-%       'steiger'         regular 2D map 
+%       'bramm'           regular 2D map
+%       'schumann'        regular 2D map
+%       'steiger'         regular 2D map
 %       'teuling'         regular 2D map (default)
 %       'ziegler'         regular 2D map
 %
